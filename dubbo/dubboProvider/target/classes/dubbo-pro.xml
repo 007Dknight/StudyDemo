@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="dubboDemo" owner="${dubbo.owner}"/>
+    <!-- Dubbo注册地址 -->
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.center}" />
+
+    <dubbo:protocol name="dubbo" port="${dubbo.port}"
+                    threadpool="cached" threads="1000" accepts="2000" serialization="java" />
+
+    <dubbo:protocol name="rest" port="${dubbo.rest.port}"
+                    threads="500" server="tomcat" accepts="500" />
+
+    <!-- 服务发布demo -->
+
+    <dubbo:service interface="com.knight.service.ProService" ref="proService" version="1.0.0" group="provider" timeout="${dubbo.timeout}">
+    </dubbo:service>
+    <bean id="proService" class="com.knight.impl.ProApply" />
+
+
+
+    <!--<dubbo:monitor protocol="registry" />-->
+
+</beans>
